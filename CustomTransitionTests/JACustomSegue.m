@@ -7,22 +7,42 @@
 //
 
 #import "JACustomSegue.h"
-#import "JATransitioningDelegate.h"
 
 @implementation JACustomSegue
 
 - (void) perform {
+    
     UIViewController *src = (UIViewController *) self.sourceViewController;
     UIViewController *dst = (UIViewController *) self.destinationViewController;
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 7) {
-        
-        id <UIViewControllerTransitioningDelegate> myDelegate = [JATransitioningDelegate new];
-        dst.transitioningDelegate = myDelegate;
-        dst.modalPresentationStyle = UIModalPresentationCustom;
-    }
+    UINavigationController *nvc;
     
-    [src presentViewController:dst animated:YES completion:nil];
+    if ([dst isKindOfClass:[UINavigationController class]]) {
+        
+        nvc = (UINavigationController *)dst;
+        
+        dst = ((UINavigationController *)dst).topViewController;
+        
+        if ([dst conformsToProtocol:@protocol(UIViewControllerTransitioningDelegate)]) {
+            
+            src.transitioningDelegate = (id<UIViewControllerTransitioningDelegate>) dst;
+            nvc.transitioningDelegate = src.transitioningDelegate;
+            nvc.modalPresentationStyle = UIModalPresentationCustom;
+        }
+        
+        [src presentViewController:nvc animated:YES completion:nil];
+        
+    } else {
+        
+        if ([dst conformsToProtocol:@protocol(UIViewControllerTransitioningDelegate)]) {
+            
+            src.transitioningDelegate = (id<UIViewControllerTransitioningDelegate>) dst;
+            dst.transitioningDelegate = src.transitioningDelegate;
+            dst.modalPresentationStyle = UIModalPresentationCustom;
+        }
+        
+        [src presentViewController:dst animated:YES completion:nil];
+    }
 }
 
 @end

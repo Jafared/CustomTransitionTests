@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JARedViewController : UIViewController
+@interface JARedViewController : UIViewController <UIViewControllerTransitioningDelegate>
 
 @end

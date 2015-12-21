@@ -1,5 +1,5 @@
 //
-//  JATransitioningDelegate.h
+//  JAAnimatedTransitioning.h
 //  CustomTransitionTests
 //
 //  Created by Alexis Bronchart on 29/11/13.
@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface JATransitioningDelegate : NSObject <UIViewControllerTransitioningDelegate>
-
-@end
 
 @interface JAAnimatedTransitioning : NSObject <UIViewControllerAnimatedTransitioning>
 
